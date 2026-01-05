@@ -1,0 +1,256 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    background-color: #f7f9fc;
+    color: #334155;
+    line-height: 1.6;
+}
+
+/* Navbar */
+.navbar {
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #2563eb;
+    font-weight: 700;
+}
+
+.navbar nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #475569;
+    font-weight: 500;
+}
+
+.nav-btn {
+    padding: 8px 18px;
+    background: #2563eb;
+    color: #ffffff;
+    border-radius: 8px;
+}
+
+/* Hero */
+.hero {
+    padding: 100px 20px;
+    background-color: #eef2ff;
+}
+
+.hero-content {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.hero-text h1 {
+    font-size: 52px;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    color: #0f172a;
+}
+
+.hero-text p {
+    font-size: 18px;
+    color: #475569;
+    max-width: 520px;
+}
+
+.hero-actions {
+    margin-top: 35px;
+}
+
+.btn {
+    padding: 14px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.primary {
+    background: #2563eb;
+    color: white;
+    margin-right: 16px;
+}
+
+.secondary {
+    border: 2px solid #2563eb;
+    color: #2563eb;
+    background: white;
+}
+
+.hero-image img {
+    width: 460px;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+/* Features */
+.features {
+    padding: 90px 20px;
+    text-align: center;
+    background: #ffffff;
+}
+
+.section-subtitle {
+    color: #64748b;
+    margin-top: 12px;
+}
+
+.feature-grid {
+    max-width: 1200px;
+    margin: 60px auto 0;
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+}
+
+.feature-card {
+    background: #f8fafc;
+    padding: 32px;
+    width: 320px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.feature-card h3 {
+    margin-top: 15px;
+    color: #0f172a;
+}
+
+.feature-card p {
+    color: #475569;
+}
+
+.feature-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* Workflow */
+.workflow {
+    padding: 90px 20px;
+    background: #f1f5ff;
+    text-align: center;
+}
+
+.workflow-steps {
+    max-width: 1200px;
+    margin: 50px auto 0;
+    display: flex;
+    gap: 28px;
+    justify-content: center;
+}
+
+.step {
+    background: white;
+    padding: 28px;
+    width: 230px;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+}
+
+.step span {
+    font-size: 26px;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+/* Benefits */
+.benefits {
+    padding: 90px 20px;
+    background: #ffffff;
+}
+
+.benefits-content {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.benefits-text h2 {
+    color: #0f172a;
+}
+
+.benefits-text ul {
+    list-style: none;
+    margin-top: 25px;
+}
+
+.benefits-text li {
+    margin-bottom: 12px;
+    color: #475569;
+    font-size: 16px;
+}
+
+.benefits-image img {
+    width: 460px;
+    border-radius: 16px;
+    box-shadow: 0 18px 36px rgba(0,0,0,0.08);
+}
+
+/* CTA Section */
+.cta {
+    padding: 110px 20px;
+    background: #eaf2ff;
+    text-align: center;
+}
+
+.cta-content {
+    max-width: 720px;
+    margin: auto;
+}
+
+.cta h2 {
+    font-size: 44px;
+    color: #1e3a8a;
+    margin-bottom: 22px;
+}
+
+.cta p {
+    font-size: 18px;
+    color: #475569;
+    margin-bottom: 45px;
+}
+
+.cta-btn {
+    display: inline-block;
+    padding: 16px 40px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 999px;
+    box-shadow: 0 12px 28px rgba(37, 99, 235, 0.3);
+}
+
+/* Footer */
+.footer {
+    padding: 22px;
+    text-align: center;
+    background: #ffffff;
+    color: #94a3b8;
+    font-size: 14px;
+}
