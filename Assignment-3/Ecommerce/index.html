@@ -3,34 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LuxeMarket | Premium E-Commerce</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Aura | Luxury Store</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-
-    <nav>
-        <div class="logo">
-            <i class="fas fa-shopping-bag"></i> Luxe<span>Market</span>
-        </div>
+    <nav class="navbar">
+        <div class="logo">AURA<span>.</span></div>
         <div class="nav-links">
-            <a href="#" onclick="renderHome()">Home</a>
-            <a href="#" onclick="renderCart()">
-                <i class="fas fa-shopping-cart"></i> Cart 
-                <span id="cart-badge" class="badge">0</span>
-            </a>
-            <div id="auth-buttons">
-                </div>
-        </div>
+            <a href="index.html" class="active">Home</a>
+            <a href="cart.html"><i class="fas fa-shopping-bag"></i> <span id="cart-count" class="badge">0</span></a>
+            <div id="nav-auth"></div> </div>
     </nav>
 
-    <main id="app">
-        </main>
+    <header style="background: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200') center/cover; height: 50vh; display:flex; align-items:center; justify-content:center; text-align:center; color:white;">
+        <div class="fade-in">
+            <h1 style="font-size:3.5rem; color:white; text-shadow: 0 2px 10px rgba(0,0,0,0.3);">Elevate Your Style</h1>
+            <p style="font-size:1.2rem; margin:15px 0;">Curated essentials for the modern lifestyle.</p>
+        </div>
+    </header>
 
-    <footer>
-        <p>&copy; 2024 LuxeMarket. All rights reserved.</p>
-    </footer>
+    <div class="container fade-in">
+        <h2 style="text-align:center; margin-top:2rem;">Latest Collection</h2>
+        <div id="product-list" class="product-grid">
+            </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

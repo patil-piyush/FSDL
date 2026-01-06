@@ -1,274 +1,203 @@
-// --- MOCK DATA ---
-const products = [
-    { id: 1, name: "Sony WH-1000XM5", price: 349, image: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&w=500&q=80" },
-    { id: 2, name: "Apple Watch Series 9", price: 399, image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=500&q=80" },
-    { id: 3, name: "Nike Air Jordan 1", price: 180, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80" },
-    { id: 4, name: "Fujifilm X-T5", price: 1699, image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=500&q=80" },
-    { id: 5, name: "MacBook Air M2", price: 1199, image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca4?auto=format&fit=crop&w=500&q=80" },
-    { id: 6, name: "Ray-Ban Aviator", price: 150, image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&w=500&q=80" }
+// --- CONFIG & UTILS ---
+const PRODUCTS = [
+    { id: 1, name: "Velvet Lounge Chair", price: 299, img: "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=500" },
+    { id: 2, name: "Golden Analog Watch", price: 150, img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500" },
+    { id: 3, name: "Minimalist Lamp", price: 89, img: "https://images.unsplash.com/photo-1507473888900-52e1ad14592d?w=500" },
+    { id: 4, name: "Leather Travel Bag", price: 210, img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500" },
+    { id: 5, name: "Designer Sunglasses", price: 120, img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500" },
+    { id: 6, name: "Ceramic Vase Set", price: 65, img: "https://images.unsplash.com/photo-1581783342308-f792ca11df53?w=500" },
 ];
 
-// --- STATE MANAGEMENT ---
+// Initialize State
 let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
-const users = JSON.parse(localStorage.getItem('users')) || [];
+let users = JSON.parse(localStorage.getItem('users')) || [];
 
-// --- INITIALIZATION ---
+// Run on every page load
 document.addEventListener('DOMContentLoaded', () => {
-    updateNav();
-    renderHome();
+    updateNavUI();
+    
+    // Page Specific Logic triggers
+    if(document.getElementById('product-list')) renderProducts();
+    if(document.getElementById('cart-items')) renderCartPage();
+    if(document.getElementById('profile-content')) renderProfilePage();
 });
 
-// --- NAVIGATION & UI UPDATES ---
-function updateNav() {
-    const authContainer = document.getElementById('auth-buttons');
-    const cartBadge = document.getElementById('cart-badge');
+// --- NAVIGATION UI ---
+function updateNavUI() {
+    const navAuth = document.getElementById('nav-auth');
+    const cartCount = document.getElementById('cart-count');
     
-    cartBadge.innerText = cart.length;
+    // Update Cart Badge
+    if(cartCount) cartCount.innerText = cart.length;
 
+    // Update Auth Links
     if (currentUser) {
-        authContainer.innerHTML = `
-            <a href="#" onclick="renderProfile()"><i class="fas fa-user"></i> ${currentUser.name}</a>
-            <a href="#" onclick="logout()" style="color: #ef4444;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        navAuth.innerHTML = `
+            <a href="profile.html"><i class="fas fa-user"></i> ${currentUser.name.split(' ')[0]}</a>
+            <a href="#" onclick="logout()" style="color:var(--primary)">Logout</a>
         `;
     } else {
-        authContainer.innerHTML = `
-            <a href="#" onclick="renderLogin()">Login</a>
-            <a href="#" onclick="renderRegister()" class="btn-primary" style="padding: 5px 15px; border-radius: 20px; color: white;">Register</a>
-        `;
+        navAuth.innerHTML = `<a href="login.html">Login</a>`;
     }
 }
 
-// --- VIEWS ---
-
-function renderHome() {
-    const app = document.getElementById('app');
-    app.innerHTML = `
-        <h2 style="margin-bottom: 20px;">Featured Products</h2>
-        <div class="product-grid">
-            ${products.map(product => `
-                <div class="product-card">
-                    <img src="${product.image}" alt="${product.name}">
-                    <div class="product-info">
-                        <h3>${product.name}</h3>
-                        <p class="price">$${product.price}</p>
-                        <button class="btn btn-primary" onclick="addToCart(${product.id})">
-                            <i class="fas fa-cart-plus"></i> Add to Cart
-                        </button>
-                    </div>
-                </div>
-            `).join('')}
-        </div>
-    `;
-}
-
-function renderCart() {
-    const app = document.getElementById('app');
-    if (cart.length === 0) {
-        app.innerHTML = `<div style="text-align:center; padding: 50px;">
-            <h2>Your Cart is Empty</h2>
-            <p>Go add some cool stuff!</p>
-            <button class="btn btn-primary" style="width:200px; margin: 20px auto;" onclick="renderHome()">Browse Shop</button>
-        </div>`;
-        return;
-    }
-
-    const total = cart.reduce((sum, item) => sum + item.price, 0);
-
-    app.innerHTML = `
-        <h2>Shopping Cart</h2>
-        <div style="margin-top: 20px;">
-            ${cart.map((item, index) => `
-                <div class="cart-item">
-                    <div style="display:flex; align-items:center; gap: 15px;">
-                        <img src="${item.image}" style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
-                        <div>
-                            <h4>${item.name}</h4>
-                            <p>$${item.price}</p>
-                        </div>
-                    </div>
-                    <button class="btn btn-danger" style="width:auto;" onclick="removeFromCart(${index})">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            `).join('')}
-        </div>
-        <div style="text-align:right; margin-top: 20px; border-top: 2px solid #ddd; padding-top: 20px;">
-            <h3>Total: $${total}</h3>
-            <button class="btn btn-primary" style="width:200px; margin-left:auto;" onclick="checkout()">Checkout Now</button>
-        </div>
-    `;
-}
-
-function renderLogin() {
-    document.getElementById('app').innerHTML = `
-        <div class="auth-container">
-            <h2 style="text-align:center; margin-bottom: 20px;">Welcome Back</h2>
-            <form onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="login-email" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="login-pass" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Login</button>
-            </form>
-            <p style="text-align:center; margin-top:15px;">
-                No account? <a href="#" onclick="renderRegister()">Register</a>
-            </p>
-        </div>
-    `;
-}
-
-function renderRegister() {
-    document.getElementById('app').innerHTML = `
-        <div class="auth-container">
-            <h2 style="text-align:center; margin-bottom: 20px;">Create Account</h2>
-            <form onsubmit="handleRegister(event)">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="reg-name" required>
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="reg-email" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="reg-pass" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Sign Up</button>
-            </form>
-            <p style="text-align:center; margin-top:15px;">
-                Have an account? <a href="#" onclick="renderLogin()">Login</a>
-            </p>
-        </div>
-    `;
-}
-
-function renderProfile() {
-    if (!currentUser) return renderLogin();
-    
-    // Find fresh user data from the users array to get latest orders
-    const userRecord = users.find(u => u.email === currentUser.email);
-    const orders = userRecord.orders || [];
-
-    document.getElementById('app').innerHTML = `
-        <div class="profile-header">
-            <h1>Hello, ${currentUser.name}!</h1>
-            <p>${currentUser.email}</p>
-        </div>
-        <h3>Your Order History</h3>
-        <div style="margin-top: 20px;">
-            ${orders.length === 0 ? '<p>No orders yet.</p>' : orders.map(order => `
-                <div class="order-item" style="flex-direction:column; align-items:flex-start;">
-                    <div style="width:100%; display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:10px;">
-                        <strong>Date: ${new Date(order.date).toLocaleDateString()}</strong>
-                        <span style="color:green; font-weight:bold;">Total: $${order.total}</span>
-                    </div>
-                    <div style="width:100%;">
-                        ${order.items.map(item => `
-                            <div style="display:flex; justify-content:space-between; font-size:0.9rem; margin-bottom:5px;">
-                                <span>${item.name}</span>
-                                <span>$${item.price}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `).join('')}
-        </div>
-    `;
-}
-
-// --- LOGIC FUNCTIONS ---
-
-function addToCart(productId) {
-    const product = products.find(p => p.id === productId);
-    cart.push(product);
-    saveData();
-    updateNav();
-    alert(`${product.name} added to cart!`);
-}
-
-function removeFromCart(index) {
-    cart.splice(index, 1);
-    saveData();
-    updateNav();
-    renderCart();
-}
-
-function checkout() {
-    if (!currentUser) {
-        alert("Please login to checkout!");
-        renderLogin();
-        return;
-    }
-    
-    const order = {
-        date: new Date().toISOString(),
-        items: [...cart],
-        total: cart.reduce((sum, item) => sum + item.price, 0)
-    };
-
-    // Add order to the specific user in the users array
-    const userIndex = users.findIndex(u => u.email === currentUser.email);
-    if (userIndex !== -1) {
-        if (!users[userIndex].orders) users[userIndex].orders = [];
-        users[userIndex].orders.unshift(order); // Add new order to top
-        localStorage.setItem('users', JSON.stringify(users));
-    }
-
-    cart = [];
-    saveData();
-    updateNav();
-    alert("Order placed successfully!");
-    renderProfile();
-}
-
-function handleRegister(e) {
+// --- AUTH FUNCTIONS ---
+function registerUser(e) {
     e.preventDefault();
     const name = document.getElementById('reg-name').value;
     const email = document.getElementById('reg-email').value;
     const pass = document.getElementById('reg-pass').value;
 
-    if (users.find(u => u.email === email)) {
-        alert("Email already registered!");
+    if(users.some(u => u.email === email)) {
+        alert("User already exists!");
         return;
     }
 
     const newUser = { name, email, pass, orders: [] };
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
-    alert("Registration successful! Please Login.");
-    renderLogin();
+    alert("Account created! Please login.");
+    window.location.href = 'login.html';
 }
 
-function handleLogin(e) {
+function loginUser(e) {
     e.preventDefault();
-    const email = document.getElementById('login-email').value;
-    const pass = document.getElementById('login-pass').value;
-
+    const email = document.getElementById('log-email').value;
+    const pass = document.getElementById('log-pass').value;
     const user = users.find(u => u.email === email && u.pass === pass);
-    
+
     if (user) {
-        currentUser = user;
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        updateNav();
-        renderHome();
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        window.location.href = 'index.html';
     } else {
-        alert("Invalid email or password!");
+        alert("Invalid credentials!");
     }
 }
 
 function logout() {
-    currentUser = null;
     localStorage.removeItem('currentUser');
-    updateNav();
-    renderHome();
+    window.location.href = 'index.html';
 }
 
-function saveData() {
+// --- SHOPPING LOGIC ---
+function renderProducts() {
+    const grid = document.getElementById('product-list');
+    grid.innerHTML = PRODUCTS.map(p => `
+        <div class="card">
+            <img src="${p.img}" alt="${p.name}">
+            <div class="card-body">
+                <h3 class="card-title">${p.name}</h3>
+                <span class="card-price">$${p.price}</span>
+                <button class="btn" onclick="addToCart(${p.id})">Add to Cart</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function addToCart(id) {
+    const product = PRODUCTS.find(p => p.id === id);
+    cart.push(product);
     localStorage.setItem('cart', JSON.stringify(cart));
+    updateNavUI();
+    // Simple toast notification
+    const btn = event.target;
+    const originalText = btn.innerText;
+    btn.innerText = "Added ✓";
+    btn.style.background = "#d4af37";
+    setTimeout(() => { btn.innerText = originalText; btn.style.background = ""; }, 1000);
+}
+
+// --- CART PAGE LOGIC ---
+function renderCartPage() {
+    const container = document.getElementById('cart-items');
+    const totalEl = document.getElementById('cart-total');
+    
+    if(cart.length === 0) {
+        container.innerHTML = `<tr><td colspan="4" style="text-align:center;">Your cart is empty.</td></tr>`;
+        totalEl.innerText = "0";
+        return;
+    }
+
+    let total = 0;
+    container.innerHTML = cart.map((item, index) => {
+        total += item.price;
+        return `
+        <tr>
+            <td><img src="${item.img}" class="cart-img"></td>
+            <td>${item.name}</td>
+            <td>$${item.price}</td>
+            <td><button class="btn-outline" style="padding:5px 10px; border:1px solid red; color:red;" onclick="removeFromCart(${index})">&times;</button></td>
+        </tr>`;
+    }).join('');
+    
+    totalEl.innerText = total;
+}
+
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    renderCartPage();
+    updateNavUI();
+}
+
+function checkout() {
+    if(!currentUser) {
+        alert("Please login to checkout");
+        window.location.href = 'login.html';
+        return;
+    }
+    if(cart.length === 0) return alert("Cart is empty");
+
+    const order = {
+        id: Date.now(),
+        date: new Date().toLocaleDateString(),
+        total: cart.reduce((sum, i) => sum + i.price, 0),
+        items: [...cart]
+    };
+
+    // Save order to user history
+    const userIndex = users.findIndex(u => u.email === currentUser.email);
+    users[userIndex].orders.unshift(order);
+    localStorage.setItem('users', JSON.stringify(users));
+    
+    // Clear cart
+    cart = [];
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    alert("Order Placed Successfully!");
+    window.location.href = 'profile.html';
+}
+
+// --- PROFILE LOGIC ---
+function renderProfilePage() {
+    if(!currentUser) {
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    // Refresh user data from DB to get latest orders
+    const userRecord = users.find(u => u.email === currentUser.email);
+    
+    document.getElementById('user-name').innerText = userRecord.name;
+    document.getElementById('user-email').innerText = userRecord.email;
+    
+    const ordersContainer = document.getElementById('order-history');
+    if(userRecord.orders.length === 0) {
+        ordersContainer.innerHTML = "<p>No orders yet.</p>";
+        return;
+    }
+
+    ordersContainer.innerHTML = userRecord.orders.map(order => `
+        <div class="order-card">
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                <strong>Order #${order.id}</strong>
+                <span style="color:green">$${order.total}</span>
+            </div>
+            <p style="font-size:0.85rem; color:#666;">${order.date}</p>
+            <div style="margin-top:10px; padding-top:10px; border-top:1px solid #eee;">
+                ${order.items.map(i => `<span style="margin-right:10px; font-size:0.8rem; background:#eee; padding:2px 8px; border-radius:4px;">${i.name}</span>`).join('')}
+            </div>
+        </div>
+    `).join('');
 }
