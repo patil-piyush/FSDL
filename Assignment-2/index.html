@@ -1,67 +1,355 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
   <meta charset="UTF-8">
   <title>Piyush Patil | Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Bootstrap 5 CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
+  <style>
+    /*  FONT SETUP  */
+    @font-face {
+      font-family: 'Kalam-Regular';
+      src: url('Kalam-Regular.ttf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    /* Fallback if user doesn't have the font file yet */
+    :root {
+      --main-font: 'Kalam-Regular', 'Segoe UI', sans-serif;
+    }
+
+    /*  THEME VARIABLES  */
+    :root {
+      /* Dark Theme (Default) - Deep Blue/Black */
+      --bg-body: #02040a;
+      --bg-section: #080b16;
+      --bg-card: #0f1629;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #3b82f6;
+      /* Blue */
+      --accent-glow: rgba(59, 130, 246, 0.5);
+      --border-color: rgba(148, 163, 255, 0.2);
+      --nav-bg: rgba(15, 23, 42, 0.6);
+      --hero-gradient: radial-gradient(circle at top, #1e1b4b 0%, #02040a 100%);
+    }
+
+    [data-theme="light"] {
+      /* Light Theme - Light Blue/White */
+      --bg-body: #f0f9ff;
+      --bg-section: #e0f2fe;
+      --bg-card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --accent: #0284c7;
+      --accent-glow: rgba(2, 132, 199, 0.3);
+      --border-color: rgba(2, 132, 199, 0.2);
+      --nav-bg: rgba(255, 255, 255, 0.6);
+      --hero-gradient: radial-gradient(circle at top, #bae6fd 0%, #f0f9ff 100%);
+    }
+
+    /*  GLOBAL STYLES  */
+    body {
+      font-family: var(--main-font);
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      transition: background-color 0.4s ease, color 0.4s ease;
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-weight: bold;
+      letter-spacing: -0.02em;
+    }
+
+    section {
+      transition: background-color 0.4s ease;
+    }
+
+    /*  SCROLL ANIMATION CLASSES  */
+    .hidden-el {
+      opacity: 0;
+      filter: blur(5px);
+      transform: translateY(30px);
+      transition: all 0.8s ease-out;
+    }
+
+    .show-el {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+
+    /*  COMPONENT STYLES  */
+
+    /* Theme Toggler */
+    .theme-switch {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1050;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px var(--accent-glow);
+      transition: all 0.3s ease;
+    }
+
+    .theme-switch:hover {
+      transform: scale(1.1);
+    }
+
+    /* Glassmorphism Navbar */
+    .glass-nav {
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      padding: 0.6rem 1.4rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: background 0.4s ease;
+    }
+
+    .nav-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .nav-icon:hover {
+      color: var(--accent);
+      /* Icon turns blue */
+      background: transparent;
+      /* No background */
+      transform: translateY(-5px);
+    }
+
+
+    .nav-icon.center-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--bg-body);
+      border: 2px solid var(--accent);
+      color: var(--accent);
+    }
+
+    /*  TIMELINE STYLES  */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+      border-left: 2px solid var(--border-color);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3rem;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -2.6rem;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: 4px solid var(--bg-body);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .timeline-content {
+      background: var(--bg-card);
+      padding: 1.5rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    /*  SWAPPING CARD STACK  */
+    .stack-container {
+      position: relative;
+      width: 100%;
+      height: 450px;
+      display: flex;
+      justify-content: center;
+      perspective: 1000px;
+    }
+
+    .stack-card {
+      position: absolute;
+      width: 100%;
+      max-width: 400px;
+      height: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stack-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    /* Dynamic classes for the stack logic */
+    .stack-card.front {
+      z-index: 3;
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .stack-card.middle {
+      z-index: 2;
+      transform: translateY(15px) scale(0.95);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .stack-card.back {
+      z-index: 1;
+      transform: translateY(30px) scale(0.9);
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .stack-card.hidden-stack {
+      z-index: 0;
+      transform: translateY(50px) scale(0.85);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .swap-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 30px;
+      border-radius: 30px;
+      margin-top: 20px;
+      font-weight: bold;
+      box-shadow: 0 4px 15px var(--accent-glow);
+      transition: transform 0.2s;
+    }
+
+    .swap-btn:active {
+      transform: scale(0.95);
+    }
+
+    /*  GENERAL UTILS  */
+    .custom-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .text-custom-muted {
+      color: var(--text-muted) !important;
+    }
+
+    .text-custom-main {
+      color: var(--text-main) !important;
+    }
+
+    /* Specific overrides for Marquee */
+    .marquee-container {
+      background: var(--bg-card) !important;
+      border-color: var(--border-color) !important;
+    }
+
+    /* Input styles */
+    .form-control-custom {
+      background: var(--bg-section);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .form-control-custom:focus {
+      background: var(--bg-section);
+      color: var(--text-main);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+      border-color: var(--accent);
+    }
+  </style>
 </head>
 
-<body class="text-light" data-bs-spy="scroll" data-bs-target="#bottomNav" data-bs-offset="80"
-  style="background-color:#070815;">
+<body data-bs-spy="scroll" data-bs-target="#bottomNav" data-bs-offset="80">
 
-  <!-- ================= HERO ================= -->
-  <header id="hero" class="d-flex align-items-center" style="min-height:100vh;
-               background: radial-gradient(circle at top,
-               #b39bff 0%, #1a1630 45%, #070815 100%);
-               color:#f8fafc;">
-    <div class="container">
+  <button class="theme-switch" id="themeToggle" title="Toggle Theme">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <header id="hero" class="d-flex align-items-center" style="min-height:100vh; background: var(--hero-gradient);">
+    <div class="container hidden-el">
       <div class="row align-items-center g-5">
-        <!-- Text -->
         <div class="col-lg-7 text-center text-lg-start">
-          <p class="text-uppercase mb-2 small" style="letter-spacing:0.18em; color:#cbd5f5;">
+          <p class="text-uppercase mb-2 small" style="letter-spacing:0.18em; color:var(--text-muted);">
             Computer Engineering • PCCOE
           </p>
 
-          <h1 class="display-3 fw-bold mb-3" style="line-height:1.05;">
-            Full-Stack <span style="color:#ffe68a;">Developer</span> &<br>
-            <span style="color:#ffe68a;">AI Engineer</span>
+          <h1 class="display-3 fw-bold mb-3" style="line-height:1.05; color: var(--text-main);">
+            Full-Stack <span style="color:var(--accent);">Developer</span> &<br>
+            <span style="color:var(--accent);">AI Engineer</span>
           </h1>
 
-          <p class="lead mb-4" style="color:#d1d5f0;">
+          <p class="lead mb-4" style="color:var(--text-muted);">
             Building secure, scalable web platforms and intelligent systems that turn complex ideas into
             usable products.
           </p>
 
           <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start mb-3">
-            <a href="#projects" class="btn btn-lg fw-semibold text-dark"
-              style="background:#ffe68a; border-radius:999px; padding-inline:2.5rem;">
+            <a href="#projects" class="btn btn-lg fw-semibold"
+              style="background:var(--accent); color:#fff; border-radius:999px; padding-inline:2.5rem; border:none;">
               View Projects
             </a>
-            <a href="#contact" class="btn btn-lg btn-outline-light" style="border-radius:999px; padding-inline:2.3rem;">
+            <a href="#contact" class="btn btn-lg"
+              style="border-radius:999px; padding-inline:2.3rem; border:1px solid var(--text-main); color:var(--text-main);">
               Get In Touch
             </a>
           </div>
 
           <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
-            <a href="/Assignment-2/Piyush_Patil_Resume.pdf" download class="btn btn-sm"
-              style="border-radius:999px; background:#2e2a4a; color:#e5e7ff;">
+            <a href="#" class="btn btn-sm"
+              style="border-radius:999px; background:var(--bg-card); color:var(--text-main); border:1px solid var(--border-color);">
               <i class="fas fa-download me-2"></i>Download Resume
             </a>
           </div>
         </div>
 
-        <!-- Hero Image -->
         <div class="col-lg-5">
           <div class="position-relative mx-auto" style="max-width:360px;">
-            <div class="rounded-circle overflow-hidden shadow-lg mx-auto" style="width:280px; height:280px; border:4px solid rgba(255,255,255,0.2);
-                      background:#0f172a;">
+            <div class="rounded-circle overflow-hidden shadow-lg mx-auto"
+              style="width:280px; height:280px; border:4px solid var(--border-color); background:var(--bg-card);">
               <img
                 src="https://www.ecla.com/wp-content/uploads/2025/04/etudiant-travaillant-sur-son-porfolio-1024x1400.png.webp"
                 alt="Piyush portrait" class="w-100 h-100" style="object-fit:cover;">
@@ -72,21 +360,20 @@
     </div>
   </header>
 
-  <!-- ================= ABOUT ================= -->
-  <section id="about" class="py-5" style="background:#090c1a;">
+  <section id="about" class="py-5" style="background:var(--bg-section);">
     <div class="container py-4">
-      <div class="row g-5 align-items-start">
+      <div class="row g-5 align-items-start hidden-el">
         <div class="col-lg-6">
-          <h2 class="fw-bold mb-3" style="color:#f9fafb;">About Me</h2>
-          <p class="mb-3" style="color:#cbd5f5;">
+          <h2 class="fw-bold mb-3" style="color:var(--text-main);">About Me</h2>
+          <p class="mb-3" style="color:var(--text-muted);">
             Computer Engineering undergraduate at PCCOE, Pune with a focus on MERN stack, backend systems, and applied
             AI.
           </p>
-          <p class="mb-3" style="color:#cbd5f5;">
+          <p class="mb-3" style="color:var(--text-muted);">
             Experienced in building production-ready web platforms, real-time control systems, and analytical dashboards
             in team-based environments.
           </p>
-          <p class="mb-0" style="color:#cbd5f5;">
+          <p class="mb-0" style="color:var(--text-muted);">
             Passionate about clean architecture, developer experience, and solving real-world problems at scale.
           </p>
         </div>
@@ -94,30 +381,27 @@
         <div class="col-lg-6">
           <div class="row g-3">
             <div class="col-md-6">
-              <div class="border rounded-3 p-3 h-100"
-                style="border-color:rgba(148, 163, 255, 0.4); background:#0c1020;">
-                <small class="text-uppercase" style="color:#9ca3ff;">Experience</small>
-                <p class="fw-semibold mb-1" style="color:#e5e7ff;">Projects & Leadership</p>
-                <p class="small mb-0" style="color:#9ca3c7;">
+              <div class="custom-card rounded-3 p-3 h-100">
+                <small class="text-uppercase" style="color:var(--accent);">Experience</small>
+                <p class="fw-semibold mb-1 text-custom-main">Projects & Leadership</p>
+                <p class="small mb-0 text-custom-muted">
                   Team-based development, tech leadership, and aerospace control systems.
                 </p>
               </div>
             </div>
             <div class="col-md-6">
-              <div class="border rounded-3 p-3 h-100"
-                style="border-color:rgba(148, 163, 255, 0.4); background:#0c1020;">
-                <small class="text-uppercase" style="color:#9ca3ff;">Focus</small>
-                <p class="fw-semibold mb-1" style="color:#e5e7ff;">MERN • AI • Systems</p>
-                <p class="small mb-0" style="color:#9ca3c7;">
+              <div class="custom-card rounded-3 p-3 h-100">
+                <small class="text-uppercase" style="color:var(--accent);">Focus</small>
+                <p class="fw-semibold mb-1 text-custom-main">MERN • AI • Systems</p>
+                <p class="small mb-0 text-custom-muted">
                   Full-stack apps, telemetry, automation, and analytics.
                 </p>
               </div>
             </div>
             <div class="col-md-12">
-              <div class="border rounded-3 p-3 h-100"
-                style="border-color:rgba(148, 163, 255, 0.4); background:#0c1020;">
-                <small class="text-uppercase" style="color:#9ca3ff;">Location</small>
-                <p class="fw-semibold mb-0" style="color:#e5e7ff;">Pune, India</p>
+              <div class="custom-card rounded-3 p-3 h-100">
+                <small class="text-uppercase" style="color:var(--accent);">Location</small>
+                <p class="fw-semibold mb-0 text-custom-main">Pune, India</p>
               </div>
             </div>
           </div>
@@ -126,83 +410,68 @@
     </div>
   </section>
 
-  <!-- ================= EDUCATION ================= -->
-  <section id="education" class="py-5" style="background:#070815;">
-    <div class="container">
-      <h2 class="fw-bold text-center mb-4" style="color:#f9fafb;">Education</h2>
+  <section id="education" class="py-5" style="background:var(--bg-body);">
+    <div class="container hidden-el">
+      <h2 class="fw-bold text-center mb-4" style="color:var(--text-main);">Education</h2>
 
       <div class="row g-4">
         <div class="col-lg-6">
-          <div class="p-4 rounded-4 h-100" style="background:#0b1024; border:1px solid rgba(148,163,255,0.35);">
-            <h5 class="mb-1" style="color:#e5e7ff;">Pimpri Chinchwad College of Engineering</h5>
-            <p class="mb-1" style="color:#cbd5f5;">Bachelor of Technology in Computer Engineering</p>
-            <p class="small mb-1" style="color:#a5b4fc;">CGPA: 8.12 / 10.0</p>
-            <p class="small mb-0" style="color:#9ca3c7;">Pune, India • Aug 2023 – Jun 2027</p>
+          <div class="custom-card p-4 rounded-4 h-100">
+            <h5 class="mb-1 text-custom-main">Pimpri Chinchwad College of Engineering</h5>
+            <p class="mb-1 text-custom-muted">Bachelor of Technology in Computer Engineering</p>
+            <p class="small mb-1" style="color:var(--accent);">CGPA: 8.12 / 10.0</p>
+            <p class="small mb-0 text-custom-muted">Pune, India • Aug 2023 – Jun 2027</p>
           </div>
         </div>
 
         <div class="col-lg-6">
-          <div class="p-4 rounded-4 h-100" style="background:#0b1024; border:1px solid rgba(148,163,255,0.35);">
-            <h5 class="mb-1" style="color:#e5e7ff;">Vidya Mandir Junior College</h5>
-            <p class="mb-1" style="color:#cbd5f5;">Higher Secondary Certificate (HSC)</p>
-            <p class="small mb-1" style="color:#a5b4fc;">Percentage: 79.50%</p>
-            <p class="small mb-0" style="color:#9ca3c7;">Miraj, India • Jun 2021 – Mar 2023</p>
+          <div class="custom-card p-4 rounded-4 h-100">
+            <h5 class="mb-1 text-custom-main">Vidya Mandir Junior College</h5>
+            <p class="mb-1 text-custom-muted">Higher Secondary Certificate (HSC)</p>
+            <p class="small mb-1" style="color:var(--accent);">Percentage: 79.50%</p>
+            <p class="small mb-0 text-custom-muted">Miraj, India • Jun 2021 – Mar 2023</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ================= SKILLS ================= -->
-  <section id="skills" class="py-5" style="background:#090c1a;">
-    <div class="container">
-      <h2 class="fw-bold text-center mb-2" style="color:#f9fafb;">Technical Skills</h2>
-      <p class="text-center mb-4" style="color:#cbd5f5;">
+  <section id="skills" class="py-5" style="background:var(--bg-section);">
+    <div class="container hidden-el">
+      <h2 class="fw-bold text-center mb-2" style="color:var(--text-main);">Technical Skills</h2>
+      <p class="text-center mb-4 text-custom-muted">
         Programming, web technologies, AI/ML, tools, and platforms.
       </p>
 
-      <!-- Skill categories quick text -->
       <div class="row g-4 mb-4">
         <div class="col-md-3">
-          <div class="p-3 rounded-3 h-100" style="background:#0b1024; border:1px solid rgba(148,163,255,0.35);">
-            <h6 class="fw-semibold mb-1" style="color:#e5e7ff;">Programming</h6>
-            <p class="small mb-0" style="color:#9ca3c7;">
-              C, C++, Python, JavaScript
-            </p>
+          <div class="custom-card p-3 rounded-3 h-100">
+            <h6 class="fw-semibold mb-1 text-custom-main">Programming</h6>
+            <p class="small mb-0 text-custom-muted">C, C++, Python, JavaScript</p>
           </div>
         </div>
         <div class="col-md-3">
-          <div class="p-3 rounded-3 h-100" style="background:#0b1024; border:1px solid rgba(148,163,255,0.35);">
-            <h6 class="fw-semibold mb-1" style="color:#e5e7ff;">Web Stack</h6>
-            <p class="small mb-0" style="color:#9ca3c7;">
-              React, Node, Express, MongoDB, MySQL, TailwindCSS, REST APIs
-            </p>
+          <div class="custom-card p-3 rounded-3 h-100">
+            <h6 class="fw-semibold mb-1 text-custom-main">Web Stack</h6>
+            <p class="small mb-0 text-custom-muted">React, Node, Express, MongoDB, MySQL, TailwindCSS</p>
           </div>
         </div>
         <div class="col-md-3">
-          <div class="p-3 rounded-3 h-100" style="background:#0b1024; border:1px solid rgba(148,163,255,0.35);">
-            <h6 class="fw-semibold mb-1" style="color:#e5e7ff;">AI / Data</h6>
-            <p class="small mb-0" style="color:#9ca3c7;">
-              Machine Learning, Data Analysis
-            </p>
+          <div class="custom-card p-3 rounded-3 h-100">
+            <h6 class="fw-semibold mb-1 text-custom-main">AI / Data</h6>
+            <p class="small mb-0 text-custom-muted">Machine Learning, Data Analysis</p>
           </div>
         </div>
         <div class="col-md-3">
-          <div class="p-3 rounded-3 h-100" style="background:#0b1024; border:1px solid rgba(148,163,255,0.35);">
-            <h6 class="fw-semibold mb-1" style="color:#e5e7ff;">Tools & Soft Skills</h6>
-            <p class="small mb-0" style="color:#9ca3c7;">
-              Git, GitHub, VS Code, Postman, JWT, PowerBI, Teamwork, Leadership
-            </p>
+          <div class="custom-card p-3 rounded-3 h-100">
+            <h6 class="fw-semibold mb-1 text-custom-main">Tools</h6>
+            <p class="small mb-0 text-custom-muted">Git, GitHub, VS Code, Postman, PowerBI</p>
           </div>
         </div>
       </div>
 
-      <!-- Logos marquee rows -->
-      <div class="border rounded-4 p-3" style="background:#050716; border-color:rgba(148,163,255,0.25);">
-
-        <!-- Row 1: Programming + Web -->
-        <marquee behavior="scroll" direction="left" scrollamount="5">
-          <!-- Programming -->
+      <div class="marquee-container border rounded-4 p-3">
+        <marquee behavior="scroll" direction="left" scrollamount="5" class="text-custom-main">
           <span class="mx-3"><i class="fas fa-code fa-2x" style="color:#f97316;"></i><span
               class="ms-1 small">C</span></span>
           <span class="mx-3"><i class="fas fa-code fa-2x" style="color:#ef4444;"></i><span
@@ -211,185 +480,150 @@
               class="ms-1 small">Python</span></span>
           <span class="mx-3"><i class="fab fa-js-square fa-2x" style="color:#facc15;"></i><span
               class="ms-1 small">JavaScript</span></span>
-
-          <!-- Web stack -->
           <span class="mx-3"><i class="fab fa-react fa-2x" style="color:#7dd3fc;"></i><span
               class="ms-1 small">React</span></span>
           <span class="mx-3"><i class="fab fa-node-js fa-2x" style="color:#22c55e;"></i><span
               class="ms-1 small">Node.js</span></span>
-          <span class="mx-3"><i class="fas fa-server fa-2x" style="color:#a855f7;"></i><span
-              class="ms-1 small">Express</span></span>
           <span class="mx-3"><i class="fas fa-database fa-2x" style="color:#10b981;"></i><span
               class="ms-1 small">MongoDB</span></span>
-          <span class="mx-3"><i class="fas fa-database fa-2x" style="color:#38bdf8;"></i><span
-              class="ms-1 small">MySQL</span></span>
-          <span class="mx-3"><i class="fas fa-layer-group fa-2x" style="color:#f472b6;"></i><span
-              class="ms-1 small">REST APIs</span></span>
-          <span class="mx-3"><i class="fas fa-wind fa-2x" style="color:#22c55e;"></i><span
-              class="ms-1 small">TailwindCSS</span></span>
-        </marquee>
-
-        <!-- Row 2: AI/Data + Tools + Soft skills -->
-        <marquee behavior="scroll" direction="right" scrollamount="5">
-          <!-- AI / Data -->
-          <span class="mx-3"><i class="fas fa-brain fa-2x" style="color:#a855f7;"></i><span
-              class="ms-1 small">ML</span></span>
-          <span class="mx-3"><i class="fas fa-chart-line fa-2x" style="color:#facc15;"></i><span class="ms-1 small">Data
-              Analysis</span></span>
-
-          <!-- Tools & Platforms -->
-          <span class="mx-3"><i class="fab fa-git-alt fa-2x" style="color:#f97316;"></i><span
-              class="ms-1 small">Git</span></span>
-          <span class="mx-3"><i class="fab fa-github fa-2x" style="color:#e5e7eb;"></i><span
-              class="ms-1 small">GitHub</span></span>
-          <span class="mx-3"><i class="fas fa-code-branch fa-2x" style="color:#22c55e;"></i><span class="ms-1 small">VS
-              Code</span></span>
-          <span class="mx-3"><i class="fas fa-paper-plane fa-2x" style="color:#38bdf8;"></i><span
-              class="ms-1 small">Postman</span></span>
-          <span class="mx-3"><i class="fas fa-lock fa-2x" style="color:#f97316;"></i><span class="ms-1 small">JWT
-              Auth</span></span>
-          <span class="mx-3"><i class="fas fa-chart-pie fa-2x" style="color:#22c55e;"></i><span
-              class="ms-1 small">PowerBI</span></span>
-
-          <!-- Soft skills (represented with icons) -->
-          <span class="mx-3"><i class="fas fa-users fa-2x" style="color:#60a5fa;"></i><span class="ms-1 small">Team
-              Player</span></span>
-          <span class="mx-3"><i class="fas fa-sync-alt fa-2x" style="color:#a855f7;"></i><span
-              class="ms-1 small">Adaptability</span></span>
-          <span class="mx-3"><i class="far fa-clock fa-2x" style="color:#facc15;"></i><span class="ms-1 small">Time
-              Mgmt</span></span>
-          <span class="mx-3"><i class="fas fa-lightbulb fa-2x" style="color:#f97316;"></i><span
-              class="ms-1 small">Leadership</span></span>
-          <span class="mx-3"><i class="fas fa-handshake fa-2x" style="color:#22c55e;"></i><span
-              class="ms-1 small">Collaboration</span></span>
         </marquee>
       </div>
 
     </div>
   </section>
 
-  <!-- ================= EXPERIENCE ================= -->
-  <section id="experience" class="py-5" style="background:#070815;">
-    <div class="container">
-      <h2 class="fw-bold text-center mb-4" style="color:#f9fafb;">Experience</h2>
+  <section id="experience" class="py-5" style="background:var(--bg-body);">
+    <div class="container hidden-el">
+      <h2 class="fw-bold text-center mb-5" style="color:var(--text-main);">Experience</h2>
 
-      <div class="row g-4">
-        <div class="col-lg-4">
-          <div class="p-4 rounded-4 h-100" style="background:#0b1024; border:1px solid rgba(148,163,255,0.35);">
-            <h5 class="mb-1" style="color:#e5e7ff;">Team Anantam Rocketry & Space Research, PCCOE</h5>
-            <p class="small mb-1" style="color:#a5b4fc;">Ex-Automation Engineer & Web Dev Lead</p>
-            <p class="small mb-2" style="color:#9ca3c7;">Pune, India • Apr 2024 – Oct 2025</p>
-            <ul class="small mb-0" style="color:#cbd5f5;">
-              <li>Built GUI-based ground station for real-time telemetry and thrust bed interface.</li>
-              <li>Implemented active fin control and gyroscope reaction wheel stabilization.</li>
-              <li>Developed and maintained the official team website.</li>
-            </ul>
-          </div>
-        </div>
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="timeline">
 
-        <div class="col-lg-4">
-          <div class="p-4 rounded-4 h-100" style="background:#0b1024; border:1px solid rgba(148,163,255,0.35);">
-            <h5 class="mb-1" style="color:#e5e7ff;">PCCOE ACM Student Chapter</h5>
-            <p class="small mb-1" style="color:#a5b4fc;">Ex-Technical Head</p>
-            <p class="small mb-2" style="color:#9ca3c7;">Pune, India</p>
-            <ul class="small mb-0" style="color:#cbd5f5;">
-              <li>Led MERN-based web projects and internal tools.</li>
-              <li>Organized collaborative coding sessions and technical meetups.</li>
-            </ul>
-          </div>
-        </div>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <span class="badge bg-primary mb-2">Current</span>
+                <h5 class="mb-1 text-custom-main">In-House Intern, PCCOE</h5>
+                <p class="small mb-1" style="color:var(--accent);">Full-Stack & Platform Development</p>
+                <p class="small mb-2 text-custom-muted">Oct 2024 – Present</p>
+                <ul class="small mb-0 text-custom-muted ps-3">
+                  <li>Developed UniSphere, a MERN-based event management platform.</li>
+                  <li>Implemented secure auth, analytics, and scalable UI.</li>
+                </ul>
+              </div>
+            </div>
 
-        <div class="col-lg-4">
-          <div class="p-4 rounded-4 h-100" style="background:#0b1024; border:1px solid rgba(148,163,255,0.35);">
-            <h5 class="mb-1" style="color:#e5e7ff;">In-House Intern, PCCOE</h5>
-            <p class="small mb-1" style="color:#a5b4fc;">Full-Stack & Platform Development</p>
-            <p class="small mb-2" style="color:#9ca3c7;">
-              Pune, India • Oct 2024 – Oct 2025 • Dec 2025 – Jan 2026
-            </p>
-            <ul class="small mb-0" style="color:#cbd5f5;">
-              <li>Developed UniSphere, a MERN-based event management platform with smart QR attendance.</li>
-              <li>Implemented secure auth, analytics, and scalable UI with team-based workflows.</li>
-            </ul>
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h5 class="mb-1 text-custom-main">Team Anantam Rocketry</h5>
+                <p class="small mb-1" style="color:var(--accent);">Automation Engineer & Web Lead</p>
+                <p class="small mb-2 text-custom-muted">Apr 2024 – Oct 2025</p>
+                <ul class="small mb-0 text-custom-muted ps-3">
+                  <li>Built GUI ground station for real-time telemetry.</li>
+                  <li>Implemented active fin control and stabilization.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-dot"></div>
+              <div class="timeline-content">
+                <h5 class="mb-1 text-custom-main">PCCOE ACM Student Chapter</h5>
+                <p class="small mb-1" style="color:var(--accent);">Technical Head</p>
+                <ul class="small mb-0 text-custom-muted ps-3">
+                  <li>Led MERN-based web projects and internal tools.</li>
+                  <li>Organized collaborative coding sessions.</li>
+                </ul>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ================= PROJECTS ================= -->
-  <section id="projects" class="py-5" style="background:#090c1a;">
-    <div class="container">
-      <h2 class="fw-bold text-center mb-2" style="color:#f9fafb;">Projects</h2>
-      <p class="text-center mb-5" style="color:#cbd5f5;">
-        Selected work across full-stack development and AI-driven systems.
+  <section id="projects" class="py-5" style="background:var(--bg-section);">
+    <div class="container hidden-el">
+      <h2 class="fw-bold text-center mb-2" style="color:var(--text-main);">Projects</h2>
+      <p class="text-center mb-5 text-custom-muted">
+        Selected work. Click "Next Project" to swap the stack.
       </p>
 
-      <div class="row g-4">
-        <!-- Ocean Guard -->
-        <div class="col-md-4">
-          <div class="card bg-dark text-light border-0 shadow-lg h-100"
-            style="background:#0b1024; transition:transform 0.2s ease, box-shadow 0.2s ease;">
-            <div class="ratio ratio-4x3">
-              <img src="https://images.unsplash.com/photo-1509395062183-67c5ad6faff9" alt="Ocean Guard"
-                class="w-100 h-100" style="object-fit:cover;">
-            </div>
-            <div class="card-body d-flex flex-column">
-              <h5 class="fw-bold">Ocean Guard</h5>
-              <p class="text-secondary small flex-grow-1">
-                AI-powered marine safety system (React, Python, Flask, CV, Geospatial APIs) achieving ~92% accuracy in
-                oil spill detection with trajectory prediction and alert workflows.
-              </p>
-              <div class="d-flex flex-wrap gap-2 small">
-                <span class="badge bg-primary">AI / CV</span>
-                <span class="badge bg-info text-dark">Geospatial APIs</span>
-                <span class="badge bg-secondary">Automation</span>
+      <div class="row justify-content-center align-items-center">
+        <div class="col-lg-5 col-md-8 mb-4 mb-lg-0">
+          <div class="stack-container" id="cardStack">
+
+            <div class="stack-card front" data-index="0">
+              <img src="https://images.unsplash.com/photo-1509395062183-67c5ad6faff9" alt="Ocean Guard">
+              <div class="p-4 d-flex flex-column flex-grow-1">
+                <h5 class="fw-bold text-custom-main">Ocean Guard</h5>
+                <p class="text-custom-muted small flex-grow-1">
+                  AI-powered marine safety system (React, Python, Flask, CV) achieving 92% accuracy in oil spill
+                  detection.
+                </p>
+                <div class="d-flex flex-wrap gap-2 small">
+                  <span class="badge bg-primary">AI / CV</span>
+                  <span class="badge bg-secondary">Python</span>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Prescripto -->
-        <div class="col-md-4">
-          <div class="card bg-dark text-light border-0 shadow-lg h-100"
-            style="background:#0b1024; transition:transform 0.2s ease, box-shadow 0.2s ease;">
-            <div class="ratio ratio-4x3">
+            <div class="stack-card middle" data-index="1">
               <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=764&auto=format&fit=crop"
-                class="w-100 h-100" style="object-fit:cover;" alt="Prescripto">
-            </div>
-            <div class="card-body d-flex flex-column">
-              <h5 class="fw-bold">Prescripto</h5>
-              <p class="text-secondary small flex-grow-1">
-                Full-stack hospital appointment platform (MERN, JWT, payment gateway) with role-based auth, secure
-                payments, and responsive dashboards for real-time appointment management.
-              </p>
-              <div class="d-flex flex-wrap gap-2 small">
-                <span class="badge bg-success">MERN</span>
-                <span class="badge bg-info text-dark">JWT</span>
-                <span class="badge bg-secondary">Payments</span>
+                alt="Prescripto">
+              <div class="p-4 d-flex flex-column flex-grow-1">
+                <h5 class="fw-bold text-custom-main">Prescripto</h5>
+                <p class="text-custom-muted small flex-grow-1">
+                  Full-stack hospital appointment platform (MERN, JWT, payment gateway) with role-based auth.
+                </p>
+                <div class="d-flex flex-wrap gap-2 small">
+                  <span class="badge bg-success">MERN</span>
+                  <span class="badge bg-info text-dark">Payments</span>
+                </div>
               </div>
             </div>
+
+            <div class="stack-card back" data-index="2">
+              <img src="https://images.unsplash.com/photo-1513128034602-7814ccaddd4e?q=80&w=735&auto=format&fit=crop"
+                alt="UniSphere">
+              <div class="p-4 d-flex flex-column flex-grow-1">
+                <h5 class="fw-bold text-custom-main">UniSphere</h5>
+                <p class="text-custom-muted small flex-grow-1">
+                  Event platform with dynamic QR attendance and budgets using Next.js, Node, and Tailwind.
+                </p>
+                <div class="d-flex flex-wrap gap-2 small">
+                  <span class="badge bg-primary">Next.js</span>
+                  <span class="badge bg-warning text-dark">QR</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="text-center">
+            <button class="swap-btn" onclick="swapStack()">
+              <i class="fas fa-layer-group me-2"></i>Next Project
+            </button>
           </div>
         </div>
 
-        <!-- UniSphere -->
-        <div class="col-md-4">
-          <div class="card bg-dark text-light border-0 shadow-lg h-100"
-            style="background:#0b1024; transition:transform 0.2s ease, box-shadow 0.2s ease;">
-            <div class="ratio ratio-4x3">
-              <img src="https://images.unsplash.com/photo-1513128034602-7814ccaddd4e?q=80&w=735&auto=format&fit=crop"
-                class="w-100 h-100" style="object-fit:cover;" alt="UniSphere">
+        <div class="col-lg-5 offset-lg-1 d-none d-lg-block">
+          <h3 class="fw-bold mb-3 text-custom-main">Interactive Project Gallery</h3>
+          <p class="text-custom-muted">
+            Explore my latest work in Full Stack Development and Artificial Intelligence.
+            Each project represents a unique challenge in scalability, user experience, or algorithmic complexity.
+          </p>
+          <div class="d-flex gap-3 mt-4">
+            <div class="text-center p-3 rounded-3 custom-card">
+              <h4 class="fw-bold mb-0" style="color:var(--accent);">3+</h4>
+              <small class="text-custom-muted">Major Projects</small>
             </div>
-            <div class="card-body d-flex flex-column">
-              <h5 class="fw-bold">UniSphere</h5>
-              <p class="text-secondary small flex-grow-1">
-                Centralized college event management platform (Next.js, Tailwind, Node, Express, MongoDB, JWT) with
-                dynamic QR-based smart attendance, budgets, communication, and role-based analytics dashboards.
-              </p>
-              <div class="d-flex flex-wrap gap-2 small">
-                <span class="badge bg-primary">Next.js</span>
-                <span class="badge bg-info text-dark">Smart QR</span>
-                <span class="badge bg-secondary">Dashboards</span>
-              </div>
+            <div class="text-center p-3 rounded-3 custom-card">
+              <h4 class="fw-bold mb-0" style="color:var(--accent);">92%</h4>
+              <small class="text-custom-muted">AI Accuracy</small>
             </div>
           </div>
         </div>
@@ -397,31 +631,25 @@
     </div>
   </section>
 
-
-  <!-- ================= ACHIEVEMENTS ================= -->
-  <section id="achievements" class="py-5" style="background:#070815;">
-    <div class="container">
-      <h2 class="fw-bold text-center mb-4" style="color:#f9fafb;">Achievements & Certifications</h2>
-
+  <section id="achievements" class="py-5" style="background:var(--bg-body);">
+    <div class="container hidden-el">
+      <h2 class="fw-bold text-center mb-4" style="color:var(--text-main);">Achievements</h2>
       <div class="row g-4">
         <div class="col-lg-6">
-          <div class="p-4 rounded-4 h-100" style="background:#0b1024; border:1px solid rgba(148,163,255,0.35);">
-            <h5 class="mb-3" style="color:#e5e7ff;">Certifications</h5>
-            <ul class="small mb-0" style="color:#cbd5f5;">
+          <div class="custom-card p-4 rounded-4 h-100">
+            <h5 class="mb-3 text-custom-main">Certifications</h5>
+            <ul class="small mb-0 text-custom-muted">
               <li>CS50 Introduction to Computer Science (Harvard)</li>
               <li>McKinsey Forward Program</li>
               <li>Data Structures in C++ (Scaler)</li>
-              <li>Data Analysis with Python (freeCodeCamp)</li>
             </ul>
           </div>
         </div>
-
         <div class="col-lg-6">
-          <div class="p-4 rounded-4 h-100" style="background:#0b1024; border:1px solid rgba(148,163,255,0.35);">
-            <h5 class="mb-3" style="color:#e5e7ff;">Competitive & Honors</h5>
-            <ul class="small mb-0" style="color:#cbd5f5;">
+          <div class="custom-card p-4 rounded-4 h-100">
+            <h5 class="mb-3 text-custom-main">Honors</h5>
+            <ul class="small mb-0 text-custom-muted">
               <li>HackerRank 5-Star in C & C++</li>
-              <li>CodeChef 2-Star and GFG 160 DSA Challenge finisher</li>
               <li>2nd Runner-Up, IEEE Ideathon</li>
               <li>Smart India Hackathon Participant</li>
             </ul>
@@ -431,67 +659,55 @@
     </div>
   </section>
 
-  <!-- ================= CONTACT ================= -->
-  <section id="contact" class="py-5" style="background: linear-gradient(135deg, #14142b, #252257);">
-    <div class="container">
-      <h2 class="fw-bold text-center mb-3" style="color:#f9fafb;">Contact</h2>
-      <p class="text-center mb-4" style="color:#cbd5f5;">
+  <section id="contact" class="py-5" style="background: linear-gradient(135deg, var(--bg-section), var(--bg-body));">
+    <div class="container hidden-el">
+      <h2 class="fw-bold text-center mb-3 text-custom-main">Contact</h2>
+      <p class="text-center mb-4 text-custom-muted">
         Open to internships, full-time roles, and impactful collaborations.
       </p>
 
       <div class="row g-4 justify-content-center">
-        <!-- Info -->
         <div class="col-lg-5">
           <div class="text-center text-lg-start">
-            <p class="mb-2">
+            <p class="mb-2 text-custom-main">
               <i class="fas fa-envelope me-2"></i>
-              <a href="mailto:piyushpatil0031@gmail.com" class="text-light text-decoration-none">
-                piyushpatil0031@gmail.com
-              </a>
+              piyushpatil0031@gmail.com
             </p>
-            <p class="mb-3">
+            <p class="mb-3 text-custom-main">
               <i class="fas fa-phone me-2"></i>
-              <a href="tel:+919881446455" class="text-light text-decoration-none">
-                +91 9881446455
-              </a>
+              +91 9881446455
             </p>
 
             <div class="d-flex justify-content-center justify-content-lg-start gap-3 mb-3">
-              <a href="www.linkedin.com/in/patil-piyushh" class="btn btn-outline-light btn-sm px-3 rounded-pill">
+              <a href="https://www.linkedin.com/in/patil-piyushh"
+                class="btn btn-outline-secondary btn-sm px-3 rounded-pill text-custom-main">
                 <i class="fab fa-linkedin me-2"></i>LinkedIn
               </a>
-              <a href="https://github.com/patil-piyush" class="btn btn-outline-light btn-sm px-3 rounded-pill">
+              <a href="https://github.com/patil-piyush"
+                class="btn btn-outline-secondary btn-sm px-3 rounded-pill text-custom-main">
                 <i class="fab fa-github me-2"></i>GitHub
               </a>
             </div>
-
-            <p class="small mb-0" style="color:#e5e7ff;">
-              Based in Pune, India — available for remote and on-site opportunities.
-            </p>
           </div>
         </div>
 
-        <!-- Form -->
         <div class="col-lg-5">
           <form>
             <div class="mb-3">
-              <label class="form-label small" for="name">Name</label>
-              <input type="text" class="form-control" id="name" placeholder="Your name"
-                style="background:#14172f; border-color:#4c4c8a; color:#e5e7ff;">
+              <label class="form-label small text-custom-muted">Name</label>
+              <input type="text" class="form-control form-control-custom" placeholder="Your name">
             </div>
             <div class="mb-3">
-              <label class="form-label small" for="email">Email</label>
-              <input type="email" class="form-control" id="email" placeholder="you@example.com"
-                style="background:#14172f; border-color:#4c4c8a; color:#e5e7ff;">
+              <label class="form-label small text-custom-muted">Email</label>
+              <input type="email" class="form-control form-control-custom" placeholder="you@example.com">
             </div>
             <div class="mb-3">
-              <label class="form-label small" for="message">Message</label>
-              <textarea class="form-control" id="message" rows="4"
-                placeholder="Tell me about your project or opportunity..."
-                style="background:#14172f; border-color:#4c4c8a; color:#e5e7ff;"></textarea>
+              <label class="form-label small text-custom-muted">Message</label>
+              <textarea class="form-control form-control-custom" rows="4"
+                placeholder="Tell me about your project..."></textarea>
             </div>
-            <button type="submit" class="btn w-100 fw-semibold text-dark"
-              style="background:#ffe68a; border-radius:999px;">
+            <button type="submit" class="btn w-100 fw-semibold text-white"
+              style="background:var(--accent); border-radius:999px;">
               Send Message
             </button>
           </form>
@@ -500,66 +716,102 @@
     </div>
   </section>
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="py-3" style="background:#050714;">
+  <footer class="py-3" style="background:var(--bg-section);">
     <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-      <p class="mb-1 small" style="color:#9ca3c7;">
-        © 2026 Piyush Patil. All rights reserved.
-      </p>
-      <p class="mb-0 small" style="color:#9ca3c7;">
-        Crafted with <i class="fas fa-code mx-1"></i> and Bootstrap.
-      </p>
+      <p class="mb-1 small text-custom-muted">© 2026 Piyush Patil.</p>
+      <p class="mb-0 small text-custom-muted">Crafted with <i class="fas fa-code mx-1"></i> and Bootstrap.</p>
     </div>
   </footer>
 
-  <!-- ================= BOTTOM NAVBAR ================= -->
-  <nav id="bottomNav" class="fixed-bottom d-flex justify-content-center mb-5" style="pointer-events:none;">
-    <div class="d-flex align-items-center justify-content-center gap-3" style="background:#050608; border-radius:999px; padding:0.6rem 1.4rem;
-              box-shadow:0 8px 30px rgba(0,0,0,0.6); pointer-events:auto;">
+  <nav id="bottomNav" class="fixed-bottom d-flex justify-content-center mb-4" style="pointer-events:none;">
+    <div class="glass-nav d-flex align-items-center justify-content-center gap-3" style="pointer-events:auto;">
 
-      <!-- Single nav item -->
-      <a href="#hero" class="d-flex align-items-center justify-content-center" style="width:56px; height:56px; border-radius:50%;
-              background:#e5e5e5; color:#111827; text-decoration:none;">
-        <i class="fas fa-house" style="font-size:1.2rem;"></i>
-      </a>
+      <a href="#hero" class="nav-icon"><i class="fas fa-house"></i></a>
+      <a href="#skills" class="nav-icon"><i class="fas fa-terminal"></i></a>
 
-      <a href="#skills" class="d-flex align-items-center justify-content-center" style="width:56px; height:56px; border-radius:50%;
-              background:#18181b; color:#e5e7eb; text-decoration:none;">
-        <i class="fas fa-terminal" style="font-size:1.2rem;"></i>
-      </a>
-
-      <a href="#projects" class="d-flex align-items-center justify-content-center" style="width:56px; height:56px; border-radius:50%;
-              background:#18181b; color:#e5e7eb; text-decoration:none;">
-        <i class="fas fa-cubes" style="font-size:1.2rem;"></i>
-      </a>
-
-      <!-- Center avatar icon -->
-      <a href="#about" class="d-flex align-items-center justify-content-center" style="width:64px; height:64px; border-radius:50%;
-              background:#b5e9ff; color:#020617; text-decoration:none;
-              border:3px solid #020617;">
+      <a href="#about" class="nav-icon center-icon">
         <i class="fas fa-user-astronaut" style="font-size:1.5rem;"></i>
       </a>
 
-      <a href="#education" class="d-flex align-items-center justify-content-center" style="width:56px; height:56px; border-radius:50%;
-              background:#18181b; color:#e5e7eb; text-decoration:none;">
-        <i class="far fa-file-alt" style="font-size:1.2rem;"></i>
-      </a>
+      <a href="#projects" class="nav-icon"><i class="fas fa-cubes"></i></a>
+      <a href="#experience" class="nav-icon"><i class="fas fa-history"></i></a>
 
-      <a href="https://github.com/patil-piyush" class="d-flex align-items-center justify-content-center" style="width:56px; height:56px; border-radius:50%;
-              background:#18181b; color:#e5e7eb; text-decoration:none;">
-        <i class="fab fa-github" style="font-size:1.2rem;"></i>
-      </a>
-
-      <a href="#contact" class="d-flex align-items-center justify-content-center" style="width:56px; height:56px; border-radius:50%;
-              background:#18181b; color:#e5e7eb; text-decoration:none;">
-        <i class="fas fa-arrow-up-right-from-square" style="font-size:1.2rem;"></i>
-      </a>
     </div>
   </nav>
 
-
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    //  THEME TOGGLE LOGIC 
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const htmlElement = document.documentElement;
+    const icon = themeToggleBtn.querySelector('i');
+
+    // Check saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    htmlElement.setAttribute('data-theme', savedTheme);
+    updateIcon(savedTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = htmlElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+      htmlElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateIcon(newTheme);
+    });
+
+    function updateIcon(theme) {
+      if (theme === 'dark') {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+      } else {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      }
+    }
+
+    //  SCROLL ANIMATION OBSERVER 
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show-el');
+        }
+      });
+    }, observerOptions);
+
+    const hiddenElements = document.querySelectorAll('.hidden-el');
+    hiddenElements.forEach((el) => observer.observe(el));
+
+
+    //  CARD STACK LOGIC 
+    function swapStack() {
+      const cards = document.querySelectorAll('.stack-card');
+
+      // Move each card's visual position logic
+      cards.forEach(card => {
+        if (card.classList.contains('front')) {
+          card.classList.remove('front');
+          card.classList.add('back'); // Front goes to back
+          card.style.zIndex = "1";
+        } else if (card.classList.contains('middle')) {
+          card.classList.remove('middle');
+          card.classList.add('front'); // Middle comes to front
+          card.style.zIndex = "3";
+        } else if (card.classList.contains('back')) {
+          card.classList.remove('back');
+          card.classList.add('middle'); // Back moves to middle
+          card.style.zIndex = "2";
+        }
+      });
+    }
+  </script>
 </body>
 
 </html>
