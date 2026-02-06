@@ -23,7 +23,7 @@ const Order = new mongoose.Schema({
         ]
     },
     payment: {
-        type: float,
+        type: Number,
         require: true,
         default: 0
     }
