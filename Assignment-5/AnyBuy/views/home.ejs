@@ -5,71 +5,70 @@
     <title>Collection | AnyBuy</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="/home">ANYBUY.</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <% if (user) { %>
-                        <li class="nav-item"><span class="nav-link text-muted">Welcome, <%= user.name %></span></li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/cart">
-                                <i class="bi bi-bag"></i> Cart
-                            </a>
-                        </li>
-                        <li class="nav-item ms-2">
-                            <a href="/auth/logout" class="btn btn-outline-dark btn-sm">Logout</a>
-                        </li>
-                    <% } else { %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/auth/login">Login</a>
-                        </li>
-                        <li class="nav-item ms-2">
-                            <a href="/auth/register" class="btn btn-dark btn-sm">Register</a>
-                        </li>
-                    <% } %>
-                </ul>
+            <a class="navbar-brand fs-2" href="/home">ANYBUY.</a>
+            
+            <div class="d-flex align-items-center order-lg-3 gap-4">
+                <% if (user) { %>
+                    <span class="small text-muted d-none d-md-block">Hi, <%= user.name %></span>
+                    <a class="nav-link" href="/cart"><i class="bi bi-bag"></i></a>
+                    <a href="/auth/logout" class="btn btn-sm btn-outline-dark rounded-0">Logout</a>
+                <% } else { %>
+                    <a href="/auth/login" class="nav-link small text-uppercase fw-bold">Login</a>
+                    <a href="/auth/register" class="btn btn-dark btn-sm rounded-0">Join</a>
+                <% } %>
             </div>
         </div>
     </nav>
 
-    <header class="bg-light py-5 mb-5 text-center">
-        <div class="container">
-            <h1 class="display-4">New Arrivals</h1>
-            <p class="lead text-muted">Summer Collection 2025</p>
+    <header class="py-5 text-center" style="margin-top: 40px;">
+        <div class="container" data-aos="fade-up">
+            <h1 class="display-2">New Arrivals</h1>
+            <p class="text-muted text-uppercase fw-light" style="letter-spacing: 4px;">Premium Summer Drop 2026</p>
         </div>
     </header>
 
     <div class="container mb-5">
-        <div class="row g-4">
+        <div class="d-flex justify-content-center flex-wrap gap-2">
+            <button class="filter-btn active" onclick="filterItems('all', this)">All</button>
+            <button class="filter-btn" onclick="filterItems('Men', this)">Men</button>
+            <button class="filter-btn" onclick="filterItems('Women', this)">Women</button>
+            <button class="filter-btn" onclick="filterItems('Accessories', this)">Accessories</button>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        <div class="row g-4" id="productGrid">
             <% if(products.length === 0) { %>
                 <div class="col-12 text-center py-5">
-                    <h3 class="text-muted">No products found. Run the seed script!</h3>
+                    <h3 class="text-muted fw-light">Our latest collection is currently being prepared.</h3>
                 </div>
             <% } else { %>
                 <% products.forEach(product => { %>
-                    <div class="col-6 col-md-4 col-lg-3">
+                    <div class="col-6 col-md-4 col-lg-3 product-item" data-category="<%= product.category %>" data-aos="fade-up">
                         <div class="card product-card h-100">
                             <div class="product-img-wrapper">
                                 <img src="<%= product.images[0].url %>" alt="<%= product.name %>">
+                                <div class="hover-details">
+                                    <h6 class="text-uppercase mb-3">Quick View</h6>
+                                    <p class="small text-muted mb-4"><%= product.description %></p>
+                                    <span class="small border-top pt-2">Only <%= product.stock %> items left</span>
+                                </div>
                             </div>
-                            <div class="card-body d-flex flex-column">
-                                <span class="text-muted small text-uppercase mb-1"><%= product.category %></span>
-                                <h5 class="card-title mb-2"><%= product.name %></h5>
+                            <div class="card-body px-2">
+                                <small class="text-muted text-uppercase mb-1 d-block" style="font-size: 0.65rem; letter-spacing: 1px;"><%= product.category %></small>
+                                <h6 class="mb-2"><%= product.name %></h6>
                                 <p class="price-tag mb-3">$<%= product.price.toFixed(2) %></p>
                                 
-                                <form action="/cart" method="POST" class="mt-auto">
+                                <form action="/cart" method="POST">
                                     <input type="hidden" name="productId" value="<%= product._id %>">
-                                    <button class="btn btn-primary w-100">
-                                        <i class="bi bi-plus-lg me-1"></i> Add to Cart
-                                    </button>
+                                    <button class="btn btn-primary w-100">Add to Bag</button>
                                 </form>
                             </div>
                         </div>
@@ -79,10 +78,27 @@
         </div>
     </div>
 
-    <footer class="bg-dark text-white text-center py-4 mt-auto">
-        <p class="mb-0">&copy; 2025 AnyBuy Fashion Store. All rights reserved.</p>
+    <footer class="bg-white border-top py-5 text-center mt-5">
+        <p class="small text-muted mb-0 text-uppercase ls-2">&copy; 2026 ANYBUY. Redefining Style.</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        function filterItems(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const items = document.querySelectorAll('.product-item');
+            items.forEach(item => {
+                if(category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>

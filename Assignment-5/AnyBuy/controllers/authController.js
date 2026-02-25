@@ -17,7 +17,6 @@ const registerUser = async (req, res) => {
         const { name, email, password } = req.body;
 
         const isEmailExist = await User.findOne({ email });
-        // Fixed logic: if email DOES exist, return error
         if (isEmailExist) {
             return res.render('register', { error: "Email already exists" });
         }
