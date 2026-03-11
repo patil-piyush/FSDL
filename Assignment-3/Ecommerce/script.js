@@ -2,7 +2,7 @@
 const PRODUCTS = [
     { id: 1, name: "Velvet Lounge Chair", price: 299, img: "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=500" },
     { id: 2, name: "Golden Analog Watch", price: 150, img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500" },
-    { id: 3, name: "Minimalist Lamp", price: 89, img: "https://www.figliving.com/cdn/shop/files/28.png?v=1755055410&width=1000" },
+    { id: 3, name: "Minimalist Lamp", price: 89, img: "./image.png" },
     { id: 4, name: "Leather Travel Bag", price: 210, img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500" },
     { id: 5, name: "Designer Sunglasses", price: 120, img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500" },
     { id: 6, name: "Ceramic Vase Set", price: 65, img: "https://m.media-amazon.com/images/I/61csWTsH+CL._SX679_.jpg" },
