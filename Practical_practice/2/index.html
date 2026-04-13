@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weekly Timetable</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 85%;
+            margin: 30px auto;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        caption {
+            font-size: 22px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<table>
+    <caption>Weekly Class Timetable (9 AM – 5 PM)</caption>
+
+    <!-- Header -->
+    <tr>
+        <th>Time</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+    </tr>
+
+    <!-- Row 1 -->
+    <tr>
+        <td>9:00 - 10:00</td>
+        <td>Math</td>
+        <td>Physics</td>
+        <td>Chemistry</td>
+        <td>Math</td>
+        <td>English</td>
+    </tr>
+
+    <!-- Row 2 -->
+    <tr>
+        <td>10:00 - 11:00</td>
+        <td>English</td>
+        <td>Math</td>
+        <td>Physics</td>
+        <td>Chemistry</td>
+        <td>Math</td>
+    </tr>
+
+    <!-- Break -->
+    <tr>
+        <td>11:00 - 11:10</td>
+        <td colspan="5">Short Break</td>
+    </tr>
+
+    <!-- Lab (rowspan example) -->
+    <tr>
+        <td>11:10 - 12:10</td>
+        <td rowspan="2">Computer Lab</td>
+        <td>English</td>
+        <td rowspan="2">Physics Lab</td>
+        <td>Math</td>
+        <td rowspan="2">Chemistry Lab</td>
+    </tr>
+
+    <tr>
+        <td>12:10 - 1:10</td>
+        <td>Physics</td>
+        <td>English</td>
+    </tr>
+
+    <!-- Lunch -->
+    <tr>
+        <td>1:10 - 2:10</td>
+        <td colspan="5">Lunch Break</td>
+    </tr>
+
+    <!-- Afternoon -->
+    <tr>
+        <td>2:10 - 3:10</td>
+        <td>DSA</td>
+        <td>DBMS</td>
+        <td>OS</td>
+        <td>CN</td>
+        <td>AI</td>
+    </tr>
+
+    <tr>
+        <td>3:10 - 4:10</td>
+        <td>DBMS</td>
+        <td>DSA</td>
+        <td>AI</td>
+        <td>OS</td>
+        <td>CN</td>
+    </tr>
+
+    <tr>
+        <td>4:10 - 5:00</td>
+        <td colspan="5">Seminar / Self Study</td>
+    </tr>
+
+</table>
+
+</body>
+</html>
