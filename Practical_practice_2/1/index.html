@@ -1,0 +1,57 @@
+<!-- 1. Develop a Digital Glossary that displays HTML formatting tags in a table
+and allows users to filter the content dynamically using a search bar. -->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML Tags Glossary</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>HTML Tags</h1>
+
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="Search tags..."
+    oninput="filterTable()"
+  />
+
+  <table id="tagsTable">
+    <thead>
+      <tr>
+        <th>Tag</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>&lt;br&gt;</td>
+        <td>Inserts a line break</td>
+      </tr>
+
+      <tr>
+        <td>&lt;a&gt;</td>
+        <td>Defines a hyperlink</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    function filterTable() {
+      let input = document.getElementById("searchInput").value.toLowerCase();
+      let rows = document.querySelectorAll("#tagsTable tbody tr");
+
+      rows.forEach(row => {
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(input) ? "" : "none";
+      });
+    }
+  </script>
+
+</body>
+</html>

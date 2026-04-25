@@ -1,0 +1,38 @@
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 50px;
+}
+
+h1{
+    text-align: center;
+}
+
+.skill{
+    margin: 15px 0;
+}
+
+.skillname{
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.skillbar{
+    width: 100%;
+    background-color: beige;
+    border: solid black 2px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.skillfill{
+    height: 20px;
+    width: 0;
+    background-color: green;
+    border-radius: 20px;
+    text-align: right;
+    padding-right: 5px;
+    color: white;
+    font-size: 12px;
+    line-height: 20px;
+    transition: width 0.5s ease-in-out;
+}
