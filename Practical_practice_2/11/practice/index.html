@@ -1,0 +1,40 @@
+<!-- 11. Create a Shopping Cart System where users can increase/decrease product quantity and the
+total price updates automatically. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h2>shopping cart <br></h2>
+    <div class="cart">
+        <div class="item">
+            <span >dog</span>
+            <span class="price" data-price="1000">$1000</span>
+            <button class="minus">-</button>
+            <span class="qty">1</span>
+            <button class="plus">+</button>
+        </div>
+        <div class="item">
+            <span>cat</span>
+            <span class="price" data-price="200">$200</span>
+            <button class="minus">-</button>
+            <span class="qty">1</span>
+            <button class="plus">+</button>
+        </div>
+
+        <div>
+            <span>Total: </span>
+            <span id="total">1200</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
