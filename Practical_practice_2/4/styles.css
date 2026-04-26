@@ -1,0 +1,15 @@
+body {
+    font-family: Arial;
+    text-align: center;
+}
+
+.form {
+    margin: 20px;
+}
+
+.card {
+    border: 1px solid black;
+    padding: 15px;
+    width: 200px;
+    margin: auto;
+}

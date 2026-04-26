@@ -1,0 +1,17 @@
+body {
+    font-family: Arial;
+    text-align: center;
+    transition: 0.3s;
+}
+
+/* Light Theme (default) */
+.light {
+    background: white;
+    color: black;
+}
+
+/* Dark Theme */
+.dark {
+    background: #222;
+    color: white;
+}

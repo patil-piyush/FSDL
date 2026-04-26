@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    font-family: Arial;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #333;
+    color: white;
+    padding: 10px;
+}
+
+.logo {
+    font-weight: bold;
+}
+
+/* Menu */
+.menu {
+    display: flex;
+    gap: 15px;
+}
+
+.menu a, .dropbtn {
+    color: white;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dropdown */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: white;
+    color: black;
+    min-width: 120px;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 8px;
+    color: black;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Hamburger (mobile) */
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .menu {
+        display: none;
+        flex-direction: column;
+        background: #333;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 150px;
+    }
+
+    .menu.show {
+        display: flex;
+    }
+
+    .hamburger {
+        display: block;
+    }
+}

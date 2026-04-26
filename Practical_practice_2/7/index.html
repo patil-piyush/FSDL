@@ -1,0 +1,40 @@
+<!-- 7. Design a Responsive Navigation Bar with at least one dropdown menu using HTML, CSS, and
+JavaScript. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Navbar</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="logo">MySite</div>
+
+    <div class="menu" id="menu">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+
+        <!-- Dropdown -->
+        <div class="dropdown">
+            <button class="dropbtn">Services</button>
+            <div class="dropdown-content">
+                <a href="#">Web Design</a>
+                <a href="#">Development</a>
+                <a href="#">SEO</a>
+            </div>
+        </div>
+
+        <a href="#">Contact</a>
+    </div>
+
+    <!-- Hamburger -->
+    <div class="hamburger" id="hamburger">☰</div>
+</nav>
+
+</body>
+</html>
