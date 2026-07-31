@@ -212,7 +212,7 @@ Contains responsive frontend webpages developed during self-learning and freelan
 
 **GitHub Pages**
 
-> https://patil-piyush.github.io/patil-piyush-fsdl/
+> https://patil-piyush.github.io/FSDL/
 
 *(Update this link after deployment.)*
 
@@ -220,7 +220,7 @@ Contains responsive frontend webpages developed during self-learning and freelan
 
 # 📁 GitHub Repository
 
-https://github.com/patil-piyush/patil-piyush-fsdl
+https://github.com/patil-piyush/FSDL/
 
 ---
 
@@ -229,13 +229,13 @@ https://github.com/patil-piyush/patil-piyush-fsdl
 ### Clone the repository
 
 ```bash
-git clone https://github.com/patil-piyush/patil-piyush-fsdl.git
+git clone https://github.com/patil-piyush/FSDL.git
 ```
 
 ### Move into the repository
 
 ```bash
-cd patil-piyush-fsdl
+cd FSDL
 ```
 
 ### Frontend Assignments
